@@ -16,6 +16,4 @@ module Program_Counter (
                 end
         end
 
-    //Mina
-
 endmodule
