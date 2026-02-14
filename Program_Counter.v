@@ -1,18 +1,18 @@
-module Program_Counter (
-    input [31:0] Next_PC,
+module program_counter (
+    input [31:0] next_pc,
     input rst, clk,
-    output reg [31:0] Current_PC
+    output reg [31:0] current_pc
 );
     
     always @(posedge clk or posedge rst) // asynchronous reset, PC will reset regardless of th clk
         begin
             if (rst) 
                 begin
-                    Current_PC <= 32'd0;
+                    current_pc <= 32'd0;
                 end
             else 
                 begin
-                    Current_PC <= Next_PC;
+                    current_pc <= next_pc;
                 end
         end
 
