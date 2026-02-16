@@ -20,6 +20,7 @@ module alu_control_unit (
                             default: alu_control_out = 3'b000; // add
                         endcase
                     end
+                2'b11: alu_control_out = 3'b010; //and, for andi instruction
                 default: alu_control_out = 3'b000; // add
             endcase
         end
