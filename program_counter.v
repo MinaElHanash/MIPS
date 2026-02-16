@@ -1,6 +1,6 @@
 module program_counter (
     input [31:0] next_pc,
-    input rst, clk,
+    input rst, clk, overflow_flag,
     output reg [31:0] current_pc
 );
     
@@ -9,6 +9,10 @@ module program_counter (
             if (rst) 
                 begin
                     current_pc <= 32'd0;
+                end
+            else if (overflow_flag) 
+                begin
+                    current_pc <= current_pc;
                 end
             else 
                 begin
