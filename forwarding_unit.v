@@ -9,7 +9,7 @@ module forwarding_unit (
 
     always @(*) begin
         if (source_register_1 == 5'd0) begin
-            alu_input_1 = 2'b00; // if source is $0 register then pass 32'd0
+            alu_input_1 = 2'b11; // if source is $0 register then pass 32'd0
         end
         else if ((source_register_1 == destination_register_of_1st_previous_instruction) && reg_write_1st_instruction) begin
             alu_input_1 = 2'b01; // pass the value from ex_mem registe
@@ -22,7 +22,7 @@ module forwarding_unit (
 
     always @(*) begin
         if (source_register_2 == 5'd0) begin
-            alu_input_2 = 2'b00; // if source is $0 register then pass 32'd0
+            alu_input_2 = 2'b11; // if source is $0 register then pass 32'd0
         end
         else if ((source_register_2 == destination_register_of_1st_previous_instruction) && reg_write_1st_instruction) begin
             alu_input_2 = 2'b01; // pass the value from ex_mem registe
