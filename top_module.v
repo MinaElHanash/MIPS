@@ -256,7 +256,7 @@ module top_module (
         .adder_output(ex_branch_address)
     );
 
-    mux_4to1_32bit alu_input_1_mux (
+    mux_4to1_32bits alu_input_1_mux (
         .input_1(ex_mux_1_input_1), .input_2(ex_mux_1_input_2),
         .input_3(ex_mux_1_input_3), .input_4(ex_mux_1_input_4),
         .select(ex_alu_input_1_select),
@@ -269,7 +269,7 @@ module top_module (
         .mux_out(ex_mux_2_input_1)
     );
 
-    mux_4to1_32bit alu_input_2_mux (
+    mux_4to1_32bits alu_input_2_mux (
         .input_1(ex_mux_2_input_1), .input_2(ex_mux_2_input_2),
         .input_3(ex_mux_2_input_3), .input_4(ex_mux_2_input_4),
         .select(ex_alu_input_2_select),
