@@ -1,7 +1,8 @@
 module control_unit (
     input [5:0] op_code,
     output reg [1:0] register_destination, alu_op,
-    output reg jump, branch, memory_read, memory_write, memory_to_register, alu_source, reg_write, pc_control, memory_write_source, memory_read_source
+    output reg jump, branch, memory_read, memory_write, memory_to_register, alu_source,
+    output reg reg_write, pc_control, memory_write_source, memory_read_source
 );
     always @(*) begin
 

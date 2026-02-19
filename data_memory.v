@@ -1,7 +1,7 @@
 module data_memory (
     input memory_read, memory_write, clk,
     input [31:0] read_address, write_address, write_data,
-    output [31:0] output_data
+    output reg [31:0] output_data
 );
 
     wire [31:0] actual_read_address, actual_write_address; 
@@ -18,13 +18,28 @@ module data_memory (
             $readmemh("data.hex", data_memory_registers );
         end
 
+    always @(*) begin
 
-    assign output_data = (memory_read)?data_memory_registers[actual_read_address]:32'd0;
-    // asynchronous for speed and because if we read on the posedge of the clk there will be no time to write back in the register file or to write in pc fpr pmc instruction
+        output_data = 32'd0; // default value to avoid latches
+
+        if (memory_read) begin
+            if (actual_read_address > 32'd1023) begin
+                output_data = data_memory_registers[1023];
+            end
+            else begin
+                output_data = data_memory_registers[actual_read_address];
+            end
+        end
+    end
 
     always @(posedge clk) begin // wirte is synchronous to avoid potential errors, as we must make sure that the write address is ready and stable before actually write in it
         if (memory_write) begin
-            data_memory_registers[actual_write_address] <= write_data;
+            if (actual_write_address > 32'd1023) begin
+                data_memory_registers[1023] <= write_data;
+            end
+            else begin
+                data_memory_registers[actual_write_address] <= write_data;
+            end
         end
     end
 

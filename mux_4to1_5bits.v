@@ -9,6 +9,7 @@ module mux_4to1_5bits (
             2'b00: mux_out = input_1; // for I-type
             2'b01: mux_out = input_2; // for R-type
             2'b10: mux_out = input_3; // for swi (custom instruction)
+            2'b11: mux_out = input_4;
             default: mux_out = input_2; //  default will be like normal I-type
         endcase
     end
