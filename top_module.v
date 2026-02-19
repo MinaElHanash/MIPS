@@ -238,7 +238,7 @@ module top_module (
         //*******************************************
 
         // data signals
-        .pc_in(ex_pc), .pc_plus_4_out(ex_pc_plus_4), .reg_file_out_1_out(ex_mux_1_input_1),
+        .pc_out(ex_pc), .pc_plus_4_out(ex_pc_plus_4), .reg_file_out_1_out(ex_mux_1_input_1),
         .reg_file_out_2_out(ex_alu_source_mux_input_1), .sign_extended_out(ex_alu_source_mux_input_2),
         .reg_rs_address_out(ex_rs_address), .reg_rt_address_out(ex_rt_address),
         .reg_rd_address_out(ex_rd_address), .funct_out(ex_funct),
