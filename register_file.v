@@ -16,7 +16,7 @@ module register_file (
                         registers[i] <= 32'd0;
                     end
                 end
-            else if (reg_write & (write_address!= 5'd0)) // write if it is not the 0th register
+            else if (reg_write && (write_address!= 5'd0)) // write if it is not the 0th register
                 begin
                     registers[write_address] <= write_data;
                 end

@@ -6,6 +6,7 @@ module id_ex_stage (
 
     // system signals
     input clk, rst,
+    input flush,
 
     // data signals
     input [31:0] pc_plus_4_in, reg_file_out_1_in, reg_file_out_2_in, sign_extended_in,
@@ -55,7 +56,30 @@ module id_ex_stage (
                 memory_write_source_out <= 1'd0;
                 memory_read_source_out <= 1'd0;
         end
+        else if (flush) begin
+            pc_plus_4_out <= 32'd0;
+                reg_file_out_1_out <= 32'd0;
+                reg_file_out_2_out <= 32'd0;
+                sign_extended_out <= 32'd0;
 
+                reg_rs_address_out <= 5'd0;
+                reg_rt_address_out <= 5'd0;
+                reg_rd_address_out <= 5'd0;
+                
+                register_destination_out <= 2'd0;
+                alu_op_out <= 2'd0;
+
+                jump_out <= 1'd0;
+                branch_out <= 1'd0;
+                memory_read_out <= 1'd0;
+                memory_write_out <= 1'd0;
+                memory_to_register_out <= 1'd0;
+                alu_source_out <= 1'd0;
+                reg_write_out <= 1'd0;
+                pc_control_out <= 1'd0;
+                memory_write_source_out <= 1'd0;
+                memory_read_source_out <= 1'd0;
+        end
         else begin
                 pc_plus_4_out <= pc_plus_4_in;
                 reg_file_out_1_out <= reg_file_out_1_in;
