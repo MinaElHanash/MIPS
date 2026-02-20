@@ -1,6 +1,12 @@
 module top_module (
     input clk, rst
+    output [31:0] dummy_pc_out,
+    output [31:0] dummy_alu_out
 );
+
+    assign dummy_pc_out = wb_pc; // for vivado to recognise the whole design
+    assign dummy_alu_out = wb_alu_result; // for vivado to recognise the whole design
+
     //**********************************************************
     //wires declaration
     //**********************************************************
