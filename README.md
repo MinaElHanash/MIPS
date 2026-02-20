@@ -32,28 +32,5 @@ A specialized memory-mapped routine instruction that manipulates data memory and
 ## Module Hierarchy
 The RTL is highly modularized into 19 distinct Verilog components:
 
-top_module.v (Top-Level Wrapper)
- ├── program_counter.v
- ├── instruction_memory.v
- ├── register_file.v
- ├── alu.v
- ├── data_memory.v
- │
- ├── Pipeline Registers:
- │    ├── if_id_stage.v
- │    ├── id_ex_stage.v
- │    ├── ex_mem_stage.v
- │    └── mem_wb_stage.v
- │
- ├── Control & Hazard Logic:
- │    ├── control_unit.v
- │    ├── alu_control_unit.v
- │    ├── hazard_detection_unit.v
- │    └── forwarding_unit.v
- │
- └── Datapath Utilities:
-      ├── sign_extender.v
-      ├── adder.v
-      ├── mux_2to1_32bits.v
-      ├── mux_4to1_32bits.v
-      └── mux_4to1_5bits.v
+<img width="274" height="483" alt="image" src="https://github.com/user-attachments/assets/d4380944-5d56-4a0c-9f7b-f36a8c146125" />
+
