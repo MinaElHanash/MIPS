@@ -1,11 +1,6 @@
 module top_module (
     input clk, rst
-    output [31:0] dummy_pc_out,
-    output [31:0] dummy_alu_out
 );
-
-    assign dummy_pc_out = wb_pc; // for vivado to recognise the whole design
-    assign dummy_alu_out = wb_alu_result; // for vivado to recognise the whole design
 
     //**********************************************************
     //wires declaration
@@ -150,59 +145,59 @@ module top_module (
 
 
 
-    mux_2to1_32bits branch_mux (
+    (* dont_touch = "true" *) mux_2to1_32bits branch_mux (
         .input_1(if_current_pc_plus_4), .input_2(mem_branch_address),
         .select(mem_branch_control),
         .mux_out(if_branch_mux_output)
     );
 
-    mux_2to1_32bits jump_mux (
+    (* dont_touch = "true" *) mux_2to1_32bits jump_mux (
         .input_1(if_branch_mux_output), .input_2(id_jump_address),
         .select(id_jump),
         .mux_out(if_jump_mux_output)
     );
 
-    mux_2to1_32bits pmc_mux (
+    (* dont_touch = "true" *) mux_2to1_32bits pmc_mux (
         .input_1(if_jump_mux_output), .input_2(mem_memory_out_data),
         .select(mem_pc_control),
         .mux_out(if_pmc_mux_output)
     );
 
-    program_counter program_counter_module (
+    (* dont_touch = "true" *) program_counter program_counter_module (
         .next_pc(if_pmc_mux_output),
         .clk(clk), .rst(rst), .overflow_flag(wb_overflow_flag), .write_enable(id_pc_write_enable),
         .current_pc(if_current_pc)
     );
 
-    instruction_memory instruction_memory_module (
+    (* dont_touch = "true" *) instruction_memory instruction_memory_module (
         .pc(if_current_pc),
         .instruction(if_instruction)
     );
 
-    adder pc_adder_module (
+    (* dont_touch = "true" *) adder pc_adder_module (
         .input_1(32'd4), .input_2(if_current_pc),  
         .adder_output(if_current_pc_plus_4)
     );
 
-    if_id_stage if_id_stage_register (
+    (* dont_touch = "true" *) if_id_stage if_id_stage_register (
         .clk(clk), .rst(rst),
         .write_enable(if_id_write_enable), .flush(if_id_flush),
         .instruction_in(if_instruction), .pc_in(if_current_pc), .pc_plus_4_in(if_current_pc_plus_4),
         .instruction_out(id_instruction), .pc_out(id_pc), .pc_plus_4_out(id_pc_plus_4)
     );
 
-    register_file register_file_module (
+    (* dont_touch = "true" *) register_file register_file_module (
         .read_address_1(id_instruction[25:21]), .read_address_2(id_instruction[20:16]),
         .write_address(wb_register_destination), .write_data(wb_register_file_data_wrtie),
         .reg_write(wb_reg_write), .clk(clk), .rst(rst),
         .reg_out_1(id_register_out_1), .reg_out_2(id_register_out_2)
     );
 
-    sign_extender sign_extender_module (
+    (* dont_touch = "true" *) sign_extender sign_extender_module (
         .in(id_instruction[15:0]), .out(id_sign_extended)
     );
 
-    control_unit control_unit_module (
+    (* dont_touch = "true" *) control_unit control_unit_module (
         .op_code(id_instruction[31:26]),
         .register_destination(id_register_destination), .alu_op(id_alu_op),
         .jump(id_jump), .branch(id_branch), .memory_read(id_memory_read),
@@ -211,13 +206,13 @@ module top_module (
         .memory_write_source(id_memory_write_source), .memory_read_source(id_memory_read_source)
     );
 
-    hazard_detection_unit hazard_detection_unit_module (
+    (* dont_touch = "true" *) hazard_detection_unit hazard_detection_unit_module (
         .id_rs(id_instruction[25:21]), .id_rt(id_instruction[20:16]), .ex_rt(ex_rt_address),
         .mem_read(ex_memory_read),
         .hazard_flag(id_hazard_flage), .if_id_write_enable(if_id_write_enable), .pc_write_enable(id_pc_write_enable)
     );
 
-    id_ex_stage id_ex_stage_register (
+    (* dont_touch = "true" *) id_ex_stage id_ex_stage_register (
         //*******************************************
         //inputs
         //*******************************************
@@ -257,32 +252,32 @@ module top_module (
         .memory_write_source_out(ex_memory_write_source), .memory_read_source_out(ex_memory_read_source)
     );
 
-    adder branch_adder_module (
+    (* dont_touch = "true" *) adder branch_adder_module (
         .input_1(ex_pc_plus_4), .input_2(ex_imm_shifted_by_2),  
         .adder_output(ex_branch_address)
     );
 
-    mux_4to1_32bits alu_input_1_mux (
+    (* dont_touch = "true" *) mux_4to1_32bits alu_input_1_mux (
         .input_1(ex_mux_1_input_1), .input_2(ex_mux_1_input_2),
         .input_3(ex_mux_1_input_3), .input_4(ex_mux_1_input_4),
         .select(ex_alu_input_1_select),
         .mux_out(ex_mux_1_output)
     );
 
-    mux_2to1_32bits alu_source_mux (
+    (* dont_touch = "true" *) mux_2to1_32bits alu_source_mux (
         .input_1(ex_alu_source_mux_input_1), .input_2(ex_alu_source_mux_input_2),
         .select(ex_alu_source),
         .mux_out(ex_mux_2_input_1)
     );
 
-    mux_4to1_32bits alu_input_2_mux (
+    (* dont_touch = "true" *) mux_4to1_32bits alu_input_2_mux (
         .input_1(ex_mux_2_input_1), .input_2(ex_mux_2_input_2),
         .input_3(ex_mux_2_input_3), .input_4(ex_mux_2_input_4),
         .select(ex_alu_input_2_select),
         .mux_out(ex_mux_2_output)
     );
 
-    alu alu_module (
+    (* dont_touch = "true" *) alu alu_module (
         .input_1(ex_mux_1_output), .input_2(ex_mux_2_output),
         .alu_control(ex_alu_control),
         .alu_result(ex_alu_result),
@@ -290,20 +285,20 @@ module top_module (
         .overflow_flag(ex_overflow_flag)
     );
 
-    alu_control_unit alu_control_unit_module (
+    (* dont_touch = "true" *) alu_control_unit alu_control_unit_module (
         .alu_op(ex_alu_op),
         .funct(ex_funct),
         .alu_control_out(ex_alu_control)
     );
 
-    mux_4to1_5bits destination_register_mux (
+    (* dont_touch = "true" *) mux_4to1_5bits destination_register_mux (
         .input_1(ex_rt_address), .input_2(ex_rd_address),
         .input_3(ex_rs_address), .input_4(5'd0),
         .select(ex_register_destination),
         .mux_out(ex_destination_register)
     );
 
-    forwarding_unit forwarding_unit_module (
+    (* dont_touch = "true" *) forwarding_unit forwarding_unit_module (
         .destination_register_of_1st_previous_instruction(mem_destination_register),
         .destination_register_of_2nd_previous_instruction(wb_register_destination),
         .source_register_1(ex_rs_address), .source_register_2(ex_rt_address),
@@ -312,7 +307,7 @@ module top_module (
         .alu_input_1(ex_alu_input_1_select), .alu_input_2(ex_alu_input_2_select)
     );
 
-    ex_mem_stage ex_mem_stage_register (
+    (* dont_touch = "true" *) ex_mem_stage ex_mem_stage_register (
         //*******************************************
         //inputs
         //*******************************************
@@ -345,26 +340,26 @@ module top_module (
         .memory_write_source_out(mem_memory_write_source), .memory_read_source_out(mem_memory_read_source)
     );
 
-    mux_2to1_32bits memory_read_source_mux (
+    (* dont_touch = "true" *) mux_2to1_32bits memory_read_source_mux (
         .input_1(mem_alu_result), .input_2(mem_register_file_output_2),
         .select(mem_memory_read_source),
         .mux_out(mem_memory_read_address)
     );
 
-    mux_2to1_32bits memory_data_write_source_mux (
+    (* dont_touch = "true" *) mux_2to1_32bits memory_data_write_source_mux (
         .input_1(mem_register_file_output_2), .input_2(mem_pc_plus_4),
         .select(mem_memory_write_source),
         .mux_out(mem_memory_write_data)
     );
 
-    data_memory data_memory_module (
+    (* dont_touch = "true" *) data_memory data_memory_module (
         .memory_read(mem_memory_read), .memory_write(mem_memory_write), .clk(clk),
         .read_address(mem_memory_read_address), .write_address(mem_alu_result),
         .write_data(mem_memory_write_data),
         .output_data(mem_memory_out_data)
     );
 
-    mem_wb_stage mem_wb_stage_register (
+    (* dont_touch = "true" *) mem_wb_stage mem_wb_stage_register (
         //*******************************************
         //inputs
         //*******************************************
@@ -396,7 +391,7 @@ module top_module (
         .overflow_flag_out(wb_overflow_flag)
     );
 
-    mux_2to1_32bits data_to_register_mux (
+    (* dont_touch = "true" *) mux_2to1_32bits data_to_register_mux (
         .input_1(wb_alu_result), .input_2(wb_memory_data),
         .select(wb_memory_to_register),
         .mux_out(wb_register_file_data_wrtie)
