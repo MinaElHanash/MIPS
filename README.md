@@ -34,3 +34,14 @@ The RTL is highly modularized into 19 distinct Verilog components:
 
 <img width="274" height="483" alt="image" src="https://github.com/user-attachments/assets/d4380944-5d56-4a0c-9f7b-f36a8c146125" />
 
+## Synthesis & Implementation Results**
+The design was synthesized and implemented using Xilinx Vivado targeting the Spartan-7 architecture (`xc7s50csga324-1`). 
+
+*Note: Memory modules were explicitly synthesized into logic slices (Flip-Flops) via compiler directives to benchmark total gate-level logic utilization without relying on dedicated Block RAM (BRAM).*
+
+* **Slice LUTs:** 11,333 
+* **Slice Registers (Flip-Flops):** 34,366
+* **Maximum Clock Frequency (Fmax):** 105.7 MHz
+
+**Next Steps (Phase 2)**
+The next phase of this project will involve migrating the design to a SystemVerilog/UVM environment to perform rigorous functional verification, including constrained-random stimulus generation and functional coverage tracking.
